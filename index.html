@@ -1,71 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACENA OFFICIAL | Connect With Me</title>
-<meta name="description" content="Connect with ACENA OFFICIAL on all social media platforms.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACENA OFFICIAL | QR Scanner</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;
- font-family:Arial,sans-serif;
- color:#fff;
- background:radial-gradient(circle at top,#30250e,#090909 55%);
- text-align:center;padding:35px 18px;
-}
-.container{max-width:480px;margin:auto}
-.logo{
- width:100px;height:100px;border:2px solid #d6ad55;
- border-radius:50%;display:grid;place-items:center;
- margin:20px auto;color:#e9c878;
- font-size:28px;font-weight:bold;
- box-shadow:0 0 35px #b58b3944;
-}
-h1{color:#e8c36b;letter-spacing:3px;font-size:29px}
-.subtitle{color:#c8b994;letter-spacing:3px;font-size:12px}
-.description{color:#aaa;margin:20px 0 28px}
-.links{display:grid;gap:13px}
-a{
- text-decoration:none;color:#f7e8c1;
- border:1px solid #80652f;
- background:linear-gradient(110deg,#211b10,#111);
- border-radius:13px;padding:17px;
- display:flex;align-items:center;justify-content:center;
- font-size:16px;font-weight:bold;
- transition:.2s;
-}
-a:hover{background:#57431e;transform:scale(1.02)}
-.email{margin-top:25px;color:#d7bd81;font-size:14px}
-.footer{color:#777;font-size:12px;margin-top:35px}
+body{margin:0;background:#090909;color:white;font-family:Arial,sans-serif;padding:20px}
+main{max-width:480px;margin:auto}
+header{text-align:center;padding:25px 0}
+.logo{font-size:38px;color:#e8c36b;font-weight:bold;letter-spacing:4px}
+.sub{color:#b9a16d;font-size:12px;letter-spacing:3px}
+h2{color:#e8c36b;font-size:19px}
+.card{background:linear-gradient(145deg,#211c12,#111);border:1px solid #725a2d;border-radius:17px;padding:20px;margin:15px 0;text-align:center}
+button{background:#c6a45a;color:#100d07;border:0;padding:13px 17px;border-radius:10px;font-weight:bold;font-size:15px;cursor:pointer;margin:5px}
+button.secondary{background:#292319;color:#e8c36b;border:1px solid #80652f}
+#qrcode{background:white;padding:12px;width:max-content;margin:18px auto;border-radius:10px}
+#reader{width:100%;overflow:hidden;border-radius:12px}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.links a{display:block;text-decoration:none;color:#f3dfb1;background:#201b11;border:1px solid #70562a;border-radius:10px;padding:15px 5px;font-size:14px}
+.contact{padding:12px;border-bottom:1px solid #403522;color:#e9d6a9}
+small{color:#aaa}
+input{padding:12px;width:100%;background:#171717;color:white;border:1px solid #80652f;border-radius:9px}
+footer{text-align:center;color:#888;font-size:12px;padding:25px}
 </style>
 </head>
 <body>
-<div class="container">
- <div class="logo">AC</div>
- <h1>ACENA OFFICIAL</h1>
- <div class="subtitle">MY SOCIAL MEDIA WORLD</div>
- <p class="description">Welcome to my official social media profile.<br>Let's connect!</p>
+<main>
+<header>
+<div class="logo">ACENA</div>
+<h2>ACENA OFFICIAL</h2>
+<div class="sub">SMART SOCIAL MEDIA WORLD</div>
+<p><small>আমার সকল সোশ্যাল মিডিয়া এক জায়গায়</small></p>
+</header>
 
- <div class="links">
-  <a href="https://www.facebook.com/acenaofficial" target="_blank">Facebook</a>
-  <a href="https://www.instagram.com/acenaofficial" target="_blank">Instagram</a>
-  <a href="https://youtube.com/@acenaofficial" target="_blank">YouTube</a>
-  <a href="https://wa.me/qr/VQC2OFZRAJETB1" target="_blank">WhatsApp</a>
-  <a href="https://www.threads.com/@acenaofficial" target="_blank">Threads</a>
-  <a href="https://pin.it/6GzwKI5KG" target="_blank">Pinterest</a>
-  <a href="https://www.tiktok.com/@acenaofficial" target="_blank">TikTok</a>
-  <a href="https://x.com/acenaofficial" target="_blank">X (Twitter)</a>
- </div>
+<section class="card">
+<h2>আমার QR কোড</h2>
+<p><small>স্ক্যান করে আমার সব অ্যাকাউন্ট দেখুন</small></p>
+<div id="qrcode"></div>
+<button onclick="downloadQR()">QR কোড ডাউনলোড</button>
+</section>
 
- <div class="email">
-  <p>✉ CONTACT ME</p>
-  <a href="mailto:acenaofficial@gmail.com">acenaofficial@gmail.com</a>
- </div>
+<section class="card">
+<h2>QR কোড স্ক্যানার</h2>
+<p><small>ক্যামেরা চালু করে QR কোড স্ক্যান করুন</small></p>
+<div id="reader"></div>
+<button onclick="startScanner()">ক্যামেরা চালু করুন</button>
+<button class="secondary" onclick="stopScanner()">বন্ধ করুন</button>
+<p id="result"></p>
+</section>
 
- <div class="footer">
-  © 2026 ACENA OFFICIAL. All Rights Reserved.
- </div>
+<section class="card">
+<h2>আমার সোশ্যাল মিডিয়া</h2>
+<div class="links">
+<a href="https://facebook.com/acenaofficial" target="_blank">Facebook</a>
+<a href="https://instagram.com/acenaofficial" target="_blank">Instagram</a>
+<a href="https://youtube.com/@acenaofficial" target="_blank">YouTube</a>
+<a href="https://wa.me/qr/VQC2OFZRAJETB1" target="_blank">WhatsApp</a>
+<a href="https://www.tiktok.com/@acenaofficial" target="_blank">TikTok</a>
+<a href="https://x.com/acenaofficial" target="_blank">X (Twitter)</a>
+<a href="https://threads.com/@acenaofficial" target="_blank">Threads</a>
+<a href="https://pin.it/6GzwKI5KG" target="_blank">Pinterest</a>
+<a href="https://t.me/acenaofficial" target="_blank">Telegram</a>
 </div>
+</section>
+
+<section class="card">
+<h2>যোগাযোগের নম্বর</h2>
+<div class="contact">+880 1304-147266</div>
+<div class="contact">+880 1575-821191</div>
+<div class="contact">+880 1576-780305</div>
+<div class="contact">+880 1874-797146</div>
+<p>✉ acenaofficial@gmail.com</p>
+</section>
+
+<footer>© 2026 ACENA OFFICIAL<br>All Rights Reserved</footer>
+</main>
+
+<script>
+const siteURL="https://acenaofficial.github.io/ACENA/";
+
+new QRCode(document.getElementById("qrcode"),{
+ text:siteURL,width:200,height:200,
+ colorDark:"#000000",colorLight:"#ffffff",
+ correctLevel:QRCode.CorrectLevel.H
+});
+
+function downloadQR(){
+ const canvas=document.querySelector("#qrcode canvas");
+ if(!canvas){alert("QR তৈরি হচ্ছে, একটু অপেক্ষা করুন");return}
+ const a=document.createElement("a");
+ a.download="ACENA-OFFICIAL-QR.png";
+ a.href=canvas.toDataURL("image/png");
+ a.click();
+}
+
+let scanner=null;
+async function startScanner(){
+ try{
+  if(scanner){await scanner.clear();scanner=null}
+  scanner=new Html5Qrcode("reader");
+  await scanner.start(
+   {facingMode:"environment"},
+   {fps:10,qrbox:{width:230,height:230}},
+   (decoded)=>{
+    document.getElementById("result").innerHTML=
+    "স্ক্যান সফল! <br><button onclick='openScanned()'>লিংক খুলুন</button>";
+    window.scannedLink=decoded;
+    scanner.pause();
+   },
+   ()=>{}
+  );
+ }catch(e){
+  alert("ক্যামেরা চালু হয়নি। ক্যামেরার অনুমতি দিন এবং HTTPS ওয়েবসাইট ব্যবহার করুন।");
+ }
+}
+function openScanned(){
+ if(window.scannedLink && /^https?:\/\//i.test(window.scannedLink)){
+  window.open(window.scannedLink,"_blank");
+ }else{
+  alert("এটি নিরাপদ ওয়েব লিংক নয়।");
+ }
+}
+async function stopScanner(){
+ if(scanner){
+  try{await scanner.stop();await scanner.clear()}catch(e){}
+  scanner=null;
+ }
+ document.getElementById("reader").innerHTML="";
+}
+</script>
 </body>
 </html>
